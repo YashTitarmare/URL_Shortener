@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortly - URL Shortener</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#0B1736] min-h-screen text-white">
+
+<!-- Navbar -->
+<nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold text-white">
+        Shortly
+    </h1>
+    <%# 
+    <div class="space-x-6 text-sm">
+        <a href="#" class="hover:text-indigo-400">Features</a>
+        <a href="#" class="hover:text-indigo-400">Pricing</a>
+ %>
+
+         <div class="space-x-6 text-sm">
+
+<% if(!user){ %>
+
+<button onclick="openLogin()" class="hover:text-indigo-400">
+Login
+</button>
+
+<% } else { %>
+
+<span class="text-indigo-400 font-semibold">
+Welcome, <%= user.name %>
+</span>
+
+<% } %>
+
+</div>
+
+</div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="max-w-4xl mx-auto text-center mt-16 px-6">
+
+    <h2 class="text-5xl font-extrabold leading-tight">
+        Short links, <span class="text-indigo-400">big results</span>
+    </h2>
+
+    <p class="text-gray-300 mt-6 text-lg">
+        A powerful URL shortener.  
+        Create short links and track clicks easily.
+    </p>
+
+</div>
+
+<!-- Form Card -->
+<div class="max-w-3xl mx-auto mt-12 px-6">
+    <div class="bg-white rounded-2xl shadow-2xl p-6">
+
+        <form method="POST" action="/url" class="flex flex-col md:flex-row gap-4">
+            
+            <input 
+                type="text"
+                name="url"
+                placeholder="Paste your long URL here..."
+                required
+                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-800"
+            />
+
+            <button 
+                type="submit"
+                class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+            >
+                Shorten
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center">
+
+    <div class="bg-white text-gray-800 p-8 rounded-xl w-full max-w-md relative">
+
+        <!-- Close Button -->
+        <button onclick="closeLogin()" class="absolute top-3 right-4 text-gray-500 text-xl">
+            ✕
+        </button>
+
+        <h2 class="text-2xl font-bold text-center mb-6 text-indigo-600">
+            Login
+        </h2>
+
+        <form method="POST" action="/users/login" class="space-y-4">
+
+            <input
+                type="text"
+                name="email"
+                placeholder="Email"
+                required
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+            />
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+            />
+
+            <button
+                type="submit"
+                class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+            >
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Generated URL -->
+<% if (locals.id) { %>
+<div class="max-w-3xl mx-auto mt-6 px-6">
+    <div class="bg-green-500 text-white p-4 rounded-lg text-center">
+
+        <p class="font-medium">Your short link is ready 🎉</p>
+
+        <a 
+          href="http://localhost:8000/<%= id %>"
+          target="_blank"
+          class="underline break-all block mt-2"
+        >
+          http://localhost:8000/<%= id %>
+        </a>
+
+    </div>
+</div>
+<% } %>
+
+<!-- Table Section -->
+<% if (urls && urls.length > 0) { %>
+<div class="max-w-5xl mx-auto mt-16 px-6">
+
+    <h3 class="text-2xl font-bold mb-6">
+        Your Links
+    </h3>
+
+    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+        <table class="min-w-full text-gray-800">
+            <thead class="bg-indigo-600 text-white">
+                <tr>
+                    <th class="p-4 text-left">#</th>
+                    <th class="p-4 text-left">Short Link</th>
+                    <th class="p-4 text-left">Original URL</th>
+                    <th class="p-4 text-center">Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% urls.forEach((url, index) => { %>
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="p-4"><%= index + 1 %></td>
+                        <td class="p-4 text-indigo-600 font-semibold">
+                            <%= url.shortId %>
+                        </td>
+                        <td class="p-4 break-all">
+                            <%= url.redirectURL %>
+                        </td>
+                        <td class="p-4 text-center font-bold">
+                            <%= url.visitHistory?.length || 0 %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<% } %>
+<script>
+
+function openLogin(){
+  const modal = document.getElementById("loginModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeLogin(){
+  const modal = document.getElementById("loginModal");
+  modal.classList.add("hidden");
+}
+
+window.onload = function(){
+
+  const params = new URLSearchParams(window.location.search);
+
+  if(params.get("login") === "true"){
+    openLogin();
+  }
+
+}
+
+</script>
+</body>
+</html>
