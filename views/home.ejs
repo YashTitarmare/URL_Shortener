@@ -173,6 +173,7 @@ Logout
                     <th class="p-4 text-left">Short Link</th>
                     <th class="p-4 text-left">Original URL</th>
                     <th class="p-4 text-center">Clicks</th>
+                    <th class="p-4 text-center">Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -188,7 +189,20 @@ Logout
                         <td class="p-4 text-center font-bold">
                             <%= url.visitHistory?.length || 0 %>
                         </td>
-                    </tr>
+
+
+ <td class="p-4 text-center">
+                <button 
+                    onclick="deleteLink('<%= url.shortId %>')"
+                    class="bg-red-500 hover:bg-red-700 text-white p-2 rounded flex items-center justify-center mx-auto"
+                    title="Delete">
+                    <!-- Trash Icon from Heroicons -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H2v2h1v10a2 2 0 002 2h10a2 2 0 002-2V6h1V4h-3V3a1 1 0 00-1-1H6zm2 4a1 1 0 012 0v8a1 1 0 11-2 0V6zm4 0a1 1 0 012 0v8a1 1 0 11-2 0V6z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </td>
+        </tr>
                 <% }) %>
             </tbody>
         </table>
