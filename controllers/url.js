@@ -55,6 +55,29 @@ function Message(req,res){
   res.end("Message is Triger")
 }
 
+async function deleteURl(req, res) {
+  try {
+    const { shortId } = req.body; // get shortId from request body
+
+    const url = await URL.findOne({ shortId });
+    if (!url) {
+      return res.status(404).json({ message: 'URL not found' });
+    }
+
+    await URL.deleteOne({ shortId });
+
+    res.status(200).json({ message: 'URL successfully deleted' });
+  } catch (error) {
+    console.error('Error deleting URL:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+
+
+
+
+
 
 // ### Message #####
 async function Test (req,res) {
@@ -66,6 +89,12 @@ console.log("uuid is creeate " +v4());
     });
   
   }
+
+
+
+
+
+
 
 
 
@@ -170,7 +199,8 @@ module.exports = {
   Message,
   Test,
   About,
-  StaticFunction
+  StaticFunction,
+  deleteURl,
 
 };
 
