@@ -29,11 +29,21 @@
 Login
 </button>
 
+
+<button onclick="openLogin()" class="hover:text-indigo-400">
+Logout
+</button>
+
 <% } else { %>
 
 <span class="text-indigo-400 font-semibold">
 Welcome, <%= user.name %>
 </span>
+
+
+<a href="/users/logout" class="hover:text-indigo-400">
+Logout
+</a>
 
 <% } %>
 
