@@ -65,6 +65,9 @@ async function deleteURl(req, res) {
     }
 
     await URL.deleteOne({ shortId });
+    
+        res.redirect("/"); // reload page
+
 
     res.status(200).json({ message: 'URL successfully deleted' });
   } catch (error) {
