@@ -78,7 +78,7 @@ app.get("/alldata", async (req, res) => {
         console.log(item.timestamp);
         console.log(new Date(item.timestamp));
       });
-    });a
+    });
 
     // send ONE response
     res.json({
@@ -91,6 +91,7 @@ app.get("/alldata", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 
 app.use("/url", urlRoute);  
 app.use("/about", aboutRouter);
