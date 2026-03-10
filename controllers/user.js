@@ -20,6 +20,17 @@ async function handleUserRegister(req, res) {
 
 
 
+const handleLogout = (req, res) => {
+
+    // clear authentication cookie
+    res.clearCookie("token");
+
+    // redirect to home page
+    return res.redirect("/");
+
+};
+
+
 async function handleUserLogin(req, res) {
     const { email, password } = req.body;
 
@@ -49,6 +60,7 @@ async function handleUserLogin(req, res) {
 module.exports = {
     handleUserRegister,
     handleUserLogin,
+    handleLogout,
 };
 
 
