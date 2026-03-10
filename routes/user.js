@@ -1,7 +1,7 @@
 const express=require("express");
 const router=express.Router();
 
-const {handleUserRegister,handleUserLogin}=require("../controllers/user");
+const {handleUserRegister,handleUserLogin,handleLogout}=require("../controllers/user");
 
 
 // Render register page
@@ -14,6 +14,10 @@ router.post("/register",handleUserRegister);
 //router.post("/login",login);
 
 router.post("/login",handleUserLogin)
+
+
+
+router.get("/logout", handleLogout);
 
 
 module.exports=router;
