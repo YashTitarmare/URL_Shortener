@@ -20,7 +20,7 @@ return jwt.sign({
 
 
 function getUser(token){
-    console.log("TOKEN RECEIVED:", token);
+   // console.log("TOKEN RECEIVED:", token);
     if(!token) return null;
     return jwt.verify(token, secret);
 }
