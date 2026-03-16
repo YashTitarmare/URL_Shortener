@@ -9,7 +9,13 @@ const {handleUserRegister,handleUserLogin,handleLogout}=require("../controllers/
 
 
 // for the from happinesss
-router.post("/register",handleUserRegister);
+// Register page
+router.get("/register", (req, res) => {
+    res.render("register");
+});
+
+// Register form submit
+router.post("/register", handleUserRegister);
 
 //router.post("/login",login);
 
