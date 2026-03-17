@@ -25,15 +25,18 @@ router.get(
    res.render("home", {
   urls: allurls,
   id:null,
+  // need the mention forthe use in
+    user: req.user
+
 });
   }
 );
 
 // 9th 
 
-// router.get("/",restricto(['NORMAL','ADMIN']),StaticFunction);
+router.get("/",restricto(['NORMAL','ADMIN']),StaticFunction);
 
-router.get("/",StaticFunction);
+// router.get("/",StaticFunction);
 
 router.get("/register", (req, res) => {
     res.render("register"); // register.ejs
